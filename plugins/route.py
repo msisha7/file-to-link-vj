@@ -465,21 +465,27 @@ async def media_streamer(request: web.Request, id: int, secure_hash: str):
 
         class_cache[faster_client] = tg_connect
 
-    logging.debug("before calling get_file_properties")
+    logging.info(f"Attempting to get file properties for ID: {id} from LOG_CHANNEL: {LOG_CHANNEL}")
     try:
         file_id = await tg_connect.get_file_properties(id, LOG_CHANNEL)
+        logging.info(f"Successfully got file properties from LOG_CHANNEL for ID: {id}")
     except Exception as e:
-        logging.debug(f"Failed to get file properties from LOG_CHANNEL: {e}")
+        logging.info(f"Failed to get file properties from LOG_CHANNEL: {e}")
         # Try backup channel
         backup_id = await db.get_backup_id(id)
+        logging.info(f"Backup ID from DB for {id}: {backup_id}")
+        logging.info(f"LOG_CHANNEL_2 value: {LOG_CHANNEL_2}")
+        
         if backup_id and LOG_CHANNEL_2 and LOG_CHANNEL_2 != 0:
-            logging.debug(f"Found backup ID {backup_id}. Trying LOG_CHANNEL_2...")
+            logging.info(f"Found backup ID {backup_id}. Trying LOG_CHANNEL_2...")
             try:
                 file_id = await tg_connect.get_file_properties(backup_id, LOG_CHANNEL_2)
+                logging.info(f"Successfully got file properties from LOG_CHANNEL_2 for ID: {backup_id}")
             except Exception as e2:
-                logging.debug(f"Failed to get file properties from LOG_CHANNEL_2: {e2}")
+                logging.info(f"Failed to get file properties from LOG_CHANNEL_2: {e2}")
                 raise e
         else:
+            logging.info("No backup ID found or LOG_CHANNEL_2 not configured. Raising original exception.")
             raise e
     
     logging.debug("after calling get_file_properties")
