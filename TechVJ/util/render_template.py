@@ -20,7 +20,17 @@ async def render_page(id: int, secure_hash: str, password_protected: bool = Fals
     with open(os.path.join(TEMPLATE_DIR, template_file)) as f:
         template = jinja2.Template(f.read())
 
-    file_data = await get_file_ids(TechVJBot, LOG_CHANNEL, id)
+    try:
+        file_data = await get_file_ids(TechVJBot, LOG_CHANNEL, id)
+    except Exception:
+        # Try backup channel
+        from database.users_chats_db import db
+        backup_id = await db.get_backup_id(id)
+        if backup_id and LOG_CHANNEL_2 and LOG_CHANNEL_2 != 0:
+            file_data = await get_file_ids(TechVJBot, LOG_CHANNEL_2, backup_id)
+        else:
+            raise InvalidHash("Invalid file ID or hash.")
+    
     if not file_data:
         raise InvalidHash("Invalid file ID or hash.")
 
