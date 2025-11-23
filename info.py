@@ -25,17 +25,18 @@ URL = environ.get("URL", "https://shivam.dsrbotzz.workers.dev/")
 
 # Admins, Channels & Users
 LOG_CHANNEL = int(environ.get('LOG_CHANNEL', '-1003243479334'))
-LOG_CHANNEL_2 = int(environ.get('LOG_CHANNEL_2', '0')) # Backup Log Channel ID
+LOG_CHANNEL_2 = int(environ.get('LOG_CHANNEL_2', '-1003453123686')) # Backup Log Channel ID
 ADMINS = [int(admin) if id_pattern.search(admin) else admin for admin in environ.get('ADMINS', '1620169470 1065743814 695291232').split()]
 
 # MongoDB information
-DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Dsrpdf2k25:Dsrpdf2k25@cluster0.wmt2w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+DATABASE_URI = environ.get('DATABASE_URI', "mongodb+srv://Shivam:Shivam123@cluster0.2kweb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 DATABASE_NAME = environ.get('DATABASE_NAME', "techvjautobot")
 
 # Shortlink Info
 SHORTLINK = bool(environ.get('SHORTLINK', False)) # Set True Or False
 SHORTLINK_URL = environ.get('SHORTLINK_URL', 'api.shareus.io')
 SHORTLINK_API = environ.get('SHORTLINK_API', 'hRPS5vvZc0OGOEUQJMJzPiojoVK2')
+
 
 
 
