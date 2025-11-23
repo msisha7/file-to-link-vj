@@ -75,6 +75,7 @@ async def stream_start(client, message):
             )
             print(f"DEBUG: Successfully sent to LOG_CHANNEL_2. Message ID: {log_msg_2.id}")
             await db.save_file_mapping(log_msg.id, log_msg_2.id)
+            print(f"DEBUG: Saved file mapping: Primary {log_msg.id} -> Backup {log_msg_2.id}")
         except Exception as e:
             print(f"DEBUG: Failed to send to LOG_CHANNEL_2: {e}")
             # Don't return, just log the error. Primary channel worked.
